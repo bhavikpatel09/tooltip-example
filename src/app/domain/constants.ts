@@ -14,3 +14,5 @@ export const MOUSEOUT_EVENT: string = "mouseout";
 export const CLICK_EVENT: string = "click";
 
 export const ESCAPE_EVENT: string = "keydown.escape";
+
+export const SCROLL_EVENT: string = "window:scroll";

@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 import {
   MOUSEOVER_EVENT, DOM_EVENT, FOCUSIN_EVENT,
-  FOCUSOUT_EVENT, MOUSEOUT_EVENT, CLICK_EVENT, ESCAPE_EVENT
+  FOCUSOUT_EVENT, MOUSEOUT_EVENT, CLICK_EVENT, ESCAPE_EVENT, SCROLL_EVENT
 } from "./constants";
 
 import { ComponentView } from './view';
@@ -71,7 +71,14 @@ export class TooltipDirective implements OnDestroy {
     if (this.tipTrigger === 'hover' && this.componentView && this.visibleTip && this.isMessageAvailable())
       this.removeTooltip();
   }
-
+  @HostListener(SCROLL_EVENT, [DOM_EVENT])
+  onWindowScroll(e) {
+    if ((this.tipTrigger === 'focus' || this.tipTrigger === 'click' || this.tipTrigger === 'validation') && this.componentView && this.visibleTip && this.isMessageAvailable()) {
+      this.removeTooltip();
+      this.tipPlacement = "bottom";
+      this.createTooltip();
+    }
+  }
   @HostListener(ESCAPE_EVENT, [DOM_EVENT])
   onKeydownHandler(e) {
     if ((this.tipTrigger === 'focus' || this.tipTrigger === 'click' || this.tipTrigger === 'validation') && this.componentView && this.visibleTip && this.isMessageAvailable())
